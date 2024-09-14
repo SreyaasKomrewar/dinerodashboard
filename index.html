@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dinero: Redefining Modern Finance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #00A86B;
+            --secondary-color: #F0F8FF;
+            --text-color: #333333;
+            --background-color: #FFFFFF;
+            --accent-color: #4B0082;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.5;
+            color: var(--text-color);
+            background-color: var(--background-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            width: 90%;
+        }
+
+        header {
+            background-color: var(--background-color);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        header.hidden {
+            transform: translateY(-100%);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        .logo {
+            width: 100px;
+            height: auto;
+        }
+
+        .logo img {
+            width: 100%;
+            height: auto;
+        }
+
+        h1,
+        h2 {
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            color: var(--accent-color);
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 80px;
+            flex-wrap: wrap;
+        }
+
+        .hero-text {
+            flex: 1;
+            padding-right: 40px;
+            min-width: 300px;
+        }
+
+        .hero-image {
+            flex: 1;
+            text-align: right;
+            min-width: 300px;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .feature-card {
+            background-color: var(--secondary-color);
+            padding: 30px;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+            border: 1px solid var(--primary-color);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: var(--accent-color);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-text {
+                padding-right: 0;
+                margin-bottom: 30px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="https://i.ibb.co/D54nwDq/f.png" alt="Dinero Logo">
+                </div>
+                <nav>
+                    <a href="idk2.html" class="cta-button">Get Started</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <section class="hero">
+            <div class="hero-text">
+                <h1>Redefining Modern Finance</h1>
+                <p>Dinero empowers investors with AI-driven tools and insights to navigate the complex world of finance
+                    with confidence.</p>
+                <a href="idk2.html" class="cta-button">Explore Dinero</a>
+            </div>
+            <div class="hero-image">
+                <img src="https://cdn.mos.cms.futurecdn.net/rTh56Sw5YjFvpW8SF5pJvV-415-80.jpg" alt="Dinero Dashboard">
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="feature-card">
+                <h2>AI-Powered Predictions</h2>
+                <p>Get precise stock forecasts using our advanced algorithms. Our AI analyzes vast amounts of historical
+                    data, market trends, and real-time information to provide you with accurate predictions.</p>
+                <p>Key benefits:</p>
+                <ul>
+                    <li>Up to 85% accuracy in short-term predictions</li>
+                    <li>Customizable prediction timeframes</li>
+                    <li>Risk assessment for each prediction</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h2>Real-time News</h2>
+                <p>Stay informed with the latest market news and events. Our platform aggregates information from
+                    trusted sources and delivers it to you in real-time.</p>
+                <p>Features include:</p>
+                <ul>
+                    <li>Customizable news feed based on your interests</li>
+                    <li>Breaking news alerts</li>
+                    <li>AI-powered sentiment analysis of news articles</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h2>Interactive Visualizations</h2>
+                <p>Analyze market trends with our easy-to-use charts. Our interactive visualizations help you understand
+                    complex financial data at a glance.</p>
+                <p>Visualization tools:</p>
+                <ul>
+                    <li>Candlestick charts with technical indicators</li>
+                    <li>Heat maps for sector performance</li>
+                    <li>Correlation matrices for portfolio diversification</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        let lastScrollTop = 0;
+        const header = document.querySelector('header');
+
+        window.addEventListener('scroll', () => {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop) {
+                header.classList.add('hidden');
+            } else {
+                header.classList.remove('hidden');
+            }
+            lastScrollTop = scrollTop;
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dinero Stock Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h1,
+        h2 {
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            transition: all 0.3s ease;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .news-item,
+        .prediction-item {
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .news-item:last-child,
+        .prediction-item:last-child {
+            border-bottom: none;
+        }
+
+        .news-title {
+            font-weight: 700;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .prediction-stock {
+            font-weight: 700;
+            color: #333;
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .news-summary {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .prediction-icon {
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+
+        .bullish {
+            color: #4CAF50;
+        }
+
+        .bearish {
+            color: #F44336;
+        }
+
+        .prediction-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ddd;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .search-container {
+            margin-bottom: 40px;
+            display: flex;
+        }
+
+        #stock-search {
+            flex-grow: 1;
+            padding: 15px;
+            font-size: 16px;
+            background-color: #fff;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 10px 0 0 10px;
+        }
+
+        #search-button {
+            padding: 15px 25px;
+            font-size: 16px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 0 10px 10px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #search-button:hover {
+            background-color: #555;
+        }
+
+        #predictions-container {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .logo {
+            display: block;
+            margin: 0 auto 40px;
+            max-width: 200px;
+            height: auto;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .chart-container {
+            margin-top: 40px;
+        }
+
+        .chart-container iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    <script defer data-domain="dinero.tiiny.site" src="https://analytics.tiiny.site/js/plausible.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <img src="https://i.ibb.co/cTGvjMw/f-2.png" alt="Dinero Stock Dashboard" class="logo">
+        <div class="search-container">
+            <input type="text" id="stock-search" placeholder="Search for a stock symbol...">
+            <button id="search-button">Search</button>
+        </div>
+        <div class="dashboard">
+            <div class="card">
+                <h2>Latest Stock News</h2>
+                <div id="news-container">
+                    <!-- News items will be dynamically inserted here -->
+                </div>
+            </div>
+            <div class="card">
+                <h2>Stock Predictions</h2>
+                <div class="prediction-header">
+                    <span>Name</span>
+                    <span>Prediction</span>
+                    <span>Current Value</span>
+                </div>
+                <div id="predictions-container">
+                    <!-- Predictions will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+        <div class="chart-container">
+            <h2>Live Stock Chart</h2>
+            <!-- TradingView Widget BEGIN -->
+            <div class="tradingview-widget-container" style="height:100%;width:100%">
+                <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+                <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow"
+                        target="_blank"><span class="blue-text">Track all markets on TradingView</span></a></div>
+                <script type="text/javascript"
+                    src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                        {
+                            "autosize": true,
+                                "symbol": "NASDAQ:AAPL",
+                                    "interval": "D",
+                                        "timezone": "Etc/UTC",
+                                            "theme": "dark",
+                                                "style": "1",
+                                                    "locale": "en",
+                                                        "allow_symbol_change": true,
+                                                            "calendar": false,
+                                                                "support_host": "https://www.tradingview.com"
+                        }
+                    </script>
+            </div>
+            <!-- TradingView Widget END -->
+        </div>
+    </div>
+
+    <script>
+        const FINNHUB_API_KEY = 'crhfem9r01qjv9rknj1gcrhfem9r01qjv9rknj20';
+        const FINNHUB_API_URL = 'https://finnhub.io/api/v1';
+        const DEFAULT_STOCKS = [
+            'AAPL', 'GOOGL', 'MSFT', 'AMZN', 'FB', 'TSLA', 'NVDA', 'JPM', 'JNJ', 'V', 'PG', 'UNH', 'HD', 'MA', 'DIS',
+            'PYPL', 'BAC', 'ADBE', 'CMCSA', 'XOM', 'NFLX', 'VZ', 'CSCO', 'PFE', 'INTC', 'ABT', 'KO', 'PEP', 'T', 'MRK',
+            'WMT', 'CRM', 'NKE', 'ABBV', 'TMO', 'ORCL', 'ACN', 'MCD', 'COST', 'DHR', 'LLY', 'AVGO', 'TXN', 'NEE', 'UNP',
+            'BMY', 'LIN', 'QCOM', 'MDT', 'HON'
+        ];
+
+        async function fetchNews() {
+            try {
+                const response = await fetch(`${FINNHUB_API_URL}/news?category=business&token=${FINNHUB_API_KEY}`);
+                const data = await response.json();
+                return data.slice(0, 10); // Get the first 10 news items
+            } catch (error) {
+                console.error('Error fetching news:', error);
+                return [];
+            }
+        }
+
+        async function fetchStockData(symbol) {
+            try {
+                const response = await fetch(`${FINNHUB_API_URL}/quote?symbol=${symbol}&token=${FINNHUB_API_KEY}`);
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching stock data:', error);
+                return null;
+            }
+        }
+
+        function generatePrediction(stockData) {
+            if (stockData) {
+                const currentPrice = stockData.c;
+                const previousClose = stockData.pc;
+                const pnl = currentPrice - previousClose;
+                const pnlPercentage = (pnl / previousClose) * 100;
+
+                let prediction;
+                if (pnlPercentage > 2) {
+                    prediction = 'Strong Bullish';
+                } else if (pnlPercentage > 0) {
+                    prediction = 'Bullish';
+                } else if (pnlPercentage < -2) {
+                    prediction = 'Strong Bearish';
+                } else if (pnlPercentage < 0) {
+                    prediction = 'Bearish';
+                } else {
+                    prediction = 'Neutral';
+                }
+
+                return {
+                    currentPrice: currentPrice.toFixed(2),
+                    pnl: pnl.toFixed(2),
+                    pnlPercentage: pnlPercentage.toFixed(2),
+                    prediction
+                };
+            }
+            return null;
+        }
+
+        async function displayNews() {
+            const newsContainer = document.getElementById('news-container');
+            newsContainer.innerHTML = ''; // Clear existing news
+            const newsData = await fetchNews();
+            newsData.forEach(item => {
+                const newsItem = document.createElement('div');
+                newsItem.classList.add('news-item');
+                newsItem.innerHTML = `
+                    <a href="${item.url}" target="_blank">
+                        <img src="${item.image || 'https://via.placeholder.com/400x250?text=No+Image'}" alt="${item.headline}" class="news-image">
+                    </a>
+                    <div class="news-title">${item.headline}</div>
+                    <div class="news-summary">${item.summary || 'No summary available.'}</div>
+                `;
+                newsContainer.appendChild(newsItem);
+            });
+        }
+
+        function displayPrediction(symbol, prediction) {
+            const predictionsContainer = document.getElementById('predictions-container');
+            if (prediction) {
+                const predictionItem = document.createElement('div');
+                predictionItem.classList.add('prediction-item');
+                let icon, iconClass;
+                switch (prediction.prediction) {
+                    case 'Strong Bullish':
+                        icon = '▲▲';
+                        iconClass = 'bullish';
+                        break;
+                    case 'Bullish':
+                        icon = '▲';
+                        iconClass = 'bullish';
+                        break;
+                    case 'Strong Bearish':
+                        icon = '▼▼';
+                        iconClass = 'bearish';
+                        break;
+                    case 'Bearish':
+                        icon = '▼';
+                        iconClass = 'bearish';
+                        break;
+                    default:
+                        icon = '■';
+                        iconClass = '';
+                }
+                predictionItem.innerHTML = `
+                    <span class="prediction-stock">${symbol}</span>
+                    <span class="prediction-icon ${iconClass}">${icon} ${prediction.prediction}</span>
+                    <span>$${prediction.currentPrice}</span>
+                `;
+                predictionsContainer.appendChild(predictionItem);
+            }
+        }
+
+        async function updateDashboard() {
+            await displayNews();
+            const predictionsContainer = document.getElementById('predictions-container');
+            predictionsContainer.innerHTML = ''; // Clear existing predictions
+
+            const stockDataPromises = DEFAULT_STOCKS.map(symbol => fetchStockData(symbol));
+            const stockDataResults = await Promise.all(stockDataPromises);
+
+            stockDataResults.forEach((stockData, index) => {
+                const symbol = DEFAULT_STOCKS[index];
+                const prediction = generatePrediction(stockData);
+                if (prediction) {
+                    displayPrediction(symbol, prediction);
+                }
+            });
+        }
+
+        // Initial display
+        updateDashboard();
+
+        // Update the dashboard every hour (3600000 milliseconds)
+        setInterval(updateDashboard, 3600000);
+
+        // Add event listener for stock search
+        async function searchStock() {
+            const symbol = document.getElementById('stock-search').value.toUpperCase();
+            const stockData = await fetchStockData(symbol);
+            const prediction = generatePrediction(stockData);
+            if (prediction) {
+                const predictionsContainer = document.getElementById('predictions-container');
+                const existingPrediction = predictionsContainer.querySelector(`.prediction-item:has(.prediction-stock:contains("${symbol}"))`);
+                if (existingPrediction) {
+                    existingPrediction.remove();
+                }
+                displayPrediction(symbol, prediction);
+            } else {
+                alert('No data available for this stock symbol.');
+            }
+        }
+
+        document.getElementById('search-button').addEventListener('click', searchStock);
+        document.getElementById('stock-search').addEventListener('keyup', function (e) {
+            if (e.key === 'Enter') {
+                searchStock();
+            }
+        });
+    </script>
+</body>
+
+</html>
